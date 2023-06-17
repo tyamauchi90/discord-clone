@@ -13,7 +13,7 @@ const Sidebar = () => {
       {/* sidebarLeft */}
       <div className="sidebarLeft">
         <div className="serverIcon">
-          <img src="./discordIcon.png" alt="" />
+          <img src="./discodeIcon.png" alt="" />
         </div>
         <div className="serverIcon">
           <img src="./logo192.png" alt="" />
