@@ -1,16 +1,24 @@
-import React from "react";
 import "./ChatHeader.scss";
+import HelpIcon from "@mui/icons-material/Help";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import PushPinIcon from "@mui/icons-material/PushPin";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
+import PushPinIcon from "@mui/icons-material/PushPin";
 import SearchIcon from "@mui/icons-material/Search";
 import SendIcon from "@mui/icons-material/Send";
-import HelpIcon from "@mui/icons-material/Help";
+import React from "react";
 
-const ChatHeader = () => {
+type Props = {
+  channelName: string | null;
+};
+
+const ChatHeader = (props: Props) => {
+  const { channelName } = props;
+
   return (
     <div className="chatHeader">
-      <div className="chatHeaderLeft">#Udemy</div>
+      <div className="chatHeaderLeft">
+        <h3>#{channelName}</h3>
+      </div>
 
       <div className="chatHeaderRight">
         <NotificationsIcon />
