@@ -1,0 +1,54 @@
+.chat {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  background-color: #33363d;
+  position: relative;
+  height: 100vh;
+
+  .chatMessages {
+    // flex-grow: 1;
+    height: 100vh;
+    overflow-y: scroll;
+  }
+
+  .chatInput {
+    color: lightgray;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 15px;
+    background-color: #474b53;
+    border-radius: 5px;
+    margin: 20px;
+
+    form {
+      flex-grow: 1;
+
+      textarea {
+        padding: 15px;
+        background: transparent;
+        border: none;
+        outline: none;
+        color: white;
+        font-size: large;
+        width: 100%;
+        resize: vertical; // 垂直方向にのみリサイズ可能にする
+      }
+
+      .chatInputButton {
+        display: none;
+      }
+    }
+
+    .chatInputIcons {
+      padding-left: 15px;
+      margin-left: 15px;
+      min-width: 105px;
+
+      .MuiSvgIcon-root {
+        padding: 5px;
+      }
+    }
+  }
+}
