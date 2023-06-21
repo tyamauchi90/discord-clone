@@ -23,21 +23,35 @@
     margin: 20px;
 
     form {
+      display: flex;
+      gap: 10px;
       flex-grow: 1;
+      padding: 15px 0;
+      align-items: center;
 
       textarea {
-        padding: 15px;
+        padding: 15px 15px 0 15px;
         background: transparent;
         border: none;
         outline: none;
         color: white;
         font-size: large;
         width: 100%;
+        max-width: 500px;
+        min-height: 40px;
         resize: vertical; // 垂直方向にのみリサイズ可能にする
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
       }
 
       .chatInputButton {
-        display: none;
+        display: block;
+        border-radius: 2px;
+        background-color: lightgray;
+        border: none;
+        width: 55px;
+        height: 40px;
       }
     }
 

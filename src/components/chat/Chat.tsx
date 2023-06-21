@@ -1,5 +1,6 @@
 import { useAppSelector } from "../../app/hooks";
 import { db } from "../../firebase";
+import useSubCollection from "../../hooks/useSubCollection";
 import "./Chat.scss";
 import ChatHeader from "./ChatHeader";
 import ChatMessage from "./ChatMessage";
@@ -9,61 +10,19 @@ import EmojiEmotionsIcon from "@mui/icons-material/EmojiEmotions";
 import GifIcon from "@mui/icons-material/Gif";
 import {
   CollectionReference,
-  DocumentData,
-  DocumentReference,
-  Timestamp,
+  DocumentData, // DocumentReference,
   addDoc,
   collection,
-  onSnapshot,
-  orderBy,
-  query,
   serverTimestamp,
 } from "firebase/firestore";
-import React, { useEffect, useState } from "react";
-
-interface Messages {
-  timestamp: Timestamp;
-  message: string;
-  user: {
-    uid: string;
-    photo: string;
-    email: string;
-    displayName: string;
-  };
-}
+import React, { useState } from "react";
 
 const Chat = () => {
   const [inputText, setInputText] = useState<string>("");
-  const [messages, setMessages] = useState<Messages[]>([]);
-  const channelName = useAppSelector((state) => state.channel.channelName);
   const channelId = useAppSelector((state) => state.channel.channelId);
+  const channelName = useAppSelector((state) => state.channel.channelName);
   const user = useAppSelector((state) => state.user.user);
-
-  useEffect(() => {
-    let collectionRef = collection(
-      db,
-      "channels",
-      String(channelId),
-      "messages"
-    );
-
-    const collectionRefOrderBy = query(
-      collectionRef,
-      orderBy("timestamp", "desc")
-    );
-
-    onSnapshot(collectionRefOrderBy, (snapshot) => {
-      let results: Messages[] = [];
-      snapshot.docs.forEach((doc) => {
-        results.push({
-          timestamp: doc.data().timestamp,
-          message: doc.data().message,
-          user: doc.data().user,
-        });
-      });
-      setMessages(results);
-    });
-  }, [channelId]);
+  const { subDocuments: messages } = useSubCollection("channels", "messages");
 
   const sendMessage = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -78,14 +37,12 @@ const Chat = () => {
       "messages"
     );
 
-    const docRef: DocumentReference<DocumentData> = await addDoc(
-      collectionRef,
-      {
-        message: inputText,
-        timestamp: serverTimestamp(),
-        user: user,
-      }
-    );
+    // const docRef: DocumentReference<DocumentData> = await addDoc(
+    await addDoc(collectionRef, {
+      message: inputText,
+      timestamp: serverTimestamp(),
+      user: user,
+    });
     setInputText("");
   };
 
@@ -110,14 +67,14 @@ const Chat = () => {
         <form action="">
           {/* <input
             type="text"
-            placeholder="#Udemyへメッセージを送信"
+            placeholder={`${channelName}へメッセージを送信`}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setInputText(e.target.value)
             }
             value={inputText}
           /> */}
           <textarea
-            placeholder="#Udemyへメッセージを送信"
+            placeholder={`${channelName}へメッセージを送信`}
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
               setInputText(e.target.value)
             }
